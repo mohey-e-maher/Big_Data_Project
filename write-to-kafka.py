@@ -11,22 +11,22 @@ spark.sparkContext.setLogLevel('WARN')
 
 # Define the schema for your DataFrame
 schema = StructType().add("id", IntegerType()).add(
-    "Formatted_Date", StringType()).add(
-    "Temperature", FloatType()).add(
-    "Apparent_Temperature", FloatType()).add(
-    "Humidity", FloatType()).add(
-    "Wind_Speed", FloatType()).add(
-    "Wind_Bearing", FloatType()).add(
-    "Visibility", FloatType()).add(
-    "Pressure", FloatType()).add(
-    "Precip_Type", StringType())
+    "type", StringType()).add(
+    "title", StringType()).add(
+    "director", StringType()).add(
+    "country", StringType()).add(
+    "date_added", StringType()).add(
+    "release_year", StringType()).add(
+    "rating", StringType()).add(
+    "duration", StringType()).add(
+    "listed_in", StringType())
 
 
 # Read data from a directory as a streaming DataFrame
 streaming_df = spark.readStream \
     .format("json") \
     .schema(schema) \
-    .option("path", r"D:\coding\SA project\Big_Data_Project") \
+    .option("path", "D:\coding\SA project\Big_Data_Project") \
     .load() \
 
 # Select specific columns from "data"

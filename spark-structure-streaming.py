@@ -21,13 +21,18 @@ def insert_into_phpmyadmin(row):
     conn = pymysql.connect(host=host, port=port,user=username, passwd=password, db=database)
     cursor = conn.cursor()
     # Extract the required columns from the row
-    column1_value = row.Temperature
-    column2_value = row.Wind_Speed
-    column3_value = row.Pressure
-    column4_value = row.Precip_Type
+    column1_value = row.type
+    column2_value = row.title
+    column3_value = row.director
+    column4_value = row.country
+    column5_value = row.date_added
+    column6_value = row.release_year
+    column7_value = row.rating
+    column8_value = row.duration
+    column9_value = row.listed_in
 
     # Prepare the SQL query to insert data into the table
-    sql_query = f"INSERT INTO user (temp_avg,max_wind,presure_avg,rain_snow) VALUES ({column1_value},{column2_value},{column3_value},'{column4_value}')"
+    sql_query = f"INSERT INTO bigout (type,title,director,country,date_added,release_year,rating,duration,listed_in) VALUES ({column1_value},{column2_value},{column3_value},{column4_value},{column5_value},{column6_value},{column7_value},{column8_value},'{column9_value}')"
     # Execute the SQL query
     cursor.execute(sql_query)
     # Commit the changes
@@ -46,15 +51,15 @@ spark.sparkContext.setLogLevel('WARN')
 
 # Define the schema for your DataFrame
 schema = StructType().add("id", IntegerType()).add(
-    "Formatted_Date", StringType()).add(
-    "Temperature", FloatType()).add(
-    "Apparent_Temperature", FloatType()).add(
-    "Humidity", FloatType()).add(
-    "Wind_Speed", FloatType()).add(
-    "Wind_Bearing", FloatType()).add(
-    "Visibility", FloatType()).add(
-    "Pressure", FloatType()).add(
-    "Precip_Type", StringType())
+    "type", StringType()).add(
+    "title", StringType()).add(
+    "director", StringType()).add(
+    "country", StringType()).add(
+    "date_added", StringType()).add(
+    "release_year", StringType()).add(
+    "rating", StringType()).add(
+    "duration", StringType()).add(
+    "listed_in", StringType())
 
 
 # Read data from Kafka topic as a DataFrame
@@ -71,7 +76,7 @@ df = spark.readStream \
 #########################################################################################
 
 # Select specific columns from "data"
-df = df.select("data.Temperature","data.Wind_Speed","data.Pressure","data.Precip_Type")
+df = df.select("data.type","data.title","data.director","data.country","data.date_added","data.release_year","data.rating","data.duration","data.listed_in")
 
 
 # Convert the value column to string and display the result
