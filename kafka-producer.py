@@ -4,15 +4,14 @@ from watchdog.events import FileSystemEventHandler
 
 # Kafka configuration
 bootstrap_servers = 'localhost:9092'
-# Define the topic to which you want to produce data
 topic = 'test'
 
 # Create Kafka producer
 producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
 
-
 # Watchdog event handler to handle file events
-    
+
+
 class FileEventHandler(FileSystemEventHandler):
     def on_created(self, event):
         # Read the newly created file and send it to Kafka topic
@@ -25,7 +24,7 @@ class FileEventHandler(FileSystemEventHandler):
 # Watchdog observer to monitor the directory for file events
 observer = Observer()
 event_handler = FileEventHandler()
-directory_to_watch = './data/'  # Replace with your directory path
+directory_to_watch = r'C:\Users\mohe\Desktop\Big data\Big_Data\data'  # Replace with your directory path
 
 observer.schedule(event_handler, directory_to_watch)
 observer.start()

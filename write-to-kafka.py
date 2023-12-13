@@ -10,27 +10,25 @@ spark = SparkSession.builder \
 spark.sparkContext.setLogLevel('WARN')
 
 # Define the schema for your DataFrame
-schema = StructType().add("id", IntegerType()).add(
-    "type", StringType()).add(
+schema = StructType().add("genres", StringType()).add(
+    "movieId", IntegerType()).add(
+    "rank", FloatType()).add(
+    "rating", FloatType()).add(
+    "timestamp", IntegerType()).add(
     "title", StringType()).add(
-    "director", StringType()).add(
-    "country", StringType()).add(
-    "date_added", StringType()).add(
-    "release_year", StringType()).add(
-    "rating", StringType()).add(
-    "duration", StringType()).add(
-    "listed_in", StringType())
+    "userId", IntegerType())
 
 
 # Read data from a directory as a streaming DataFrame
 streaming_df = spark.readStream \
     .format("json") \
     .schema(schema) \
-    .option("path", "D:\coding\SA project\Big_Data_Project") \
+    .option("path", r"C:\Users\mohe\Desktop\Big data\Big_Data\data") \
     .load() \
 
 # Select specific columns from "data"
 df = streaming_df.select(to_json(struct("*")).alias("value"))
+
 
 # Convert the value column to string and display the result
 query = df.selectExpr("CAST(value AS STRING)") \
